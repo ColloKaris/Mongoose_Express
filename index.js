@@ -18,13 +18,14 @@ mongoose.connect("mongodb://127.0.0.1:27017/farmStand")
   });
 
 
-
+// set up our views directory
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 //add a basic route
-app.get('/dog', (req,res) => {
-    res.send('WOOF!!')
+app.get('/products', async (req,res) => {
+    const products = await Product.find({})
+    res.render('products/index', {products})
 })
 
 
