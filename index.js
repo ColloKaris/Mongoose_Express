@@ -2,10 +2,13 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-
 // Connect to Mongoose
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://127.0.0.1:27017/shopApp")
+
+//import the model created in product.js in the models folder
+const Product = require('./models/product');
+
+mongoose.connect("mongodb://127.0.0.1:27017/farmStand")
   .then(() => {
     console.log("MONGO CONNECTION OPEN!!!");
   })
