@@ -20,6 +20,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/farmStand")
   });
 
 
+const categories = ['fruits', 'vegetables', 'dairy', 'baked goods']
+
 // set up our views directory
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -38,7 +40,7 @@ app.get('/products', async (req,res) => {
 // serve the form to create a new product
 // we don't need to do anything asynchronous here
 app.get('/products/new', (req,res) => {
-  res.render('products/new')
+  res.render('products/new', { categories })
 })
 
 //route where the form to create a new product will be submitted
@@ -61,7 +63,7 @@ app.get('/products/:id', async (req,res) => {
 app.get('/products/:id/edit', async (req,res) => {
   const {id} = req.params;
   const product = await Product.findById(id);
-  res.render('products/edit', {product})
+  res.render('products/edit', { product, categories})
 })
 
 //Route to handle the updating - where we send the data to update
