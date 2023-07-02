@@ -12,5 +12,8 @@
         <li>Category: <%= product.category%></li>
     <a href="/products">All Products</a>
     <a href="/products/<%= product._id%>/Edit">Edit Product</a>
+    <form action="/products/<%=product._id%>?_method=DELETE" method="POST">
+        <button>Delete</button>    
+    </form>
 </body>
 </html>

@@ -20,7 +20,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/farmStand")
   });
 
 
-const categories = ['fruits', 'vegetables', 'dairy', 'baked goods']
+const categories = ['fruit', 'vegetable', 'dairy', 'baked goods']
 
 // set up our views directory
 app.set('views', path.join(__dirname, 'views'));
@@ -73,6 +73,14 @@ app.put('/products/:id', async(req,res) => {
   // updating by passing the entire request body
   const product = await Product.findByIdAndUpdate(id, req.body, {runValidators: true, new: true})
   res.redirect(`/products/${product._id}`)
+})
+
+// Route to handle deletion
+app.delete('/products/:id', async (req, res) => {
+  const { id } = req.params;
+  // method we will use to delete is findByIDAndDelete()
+  const deletedProduct = await Product.findByIdAndDelete(id);
+  res.redirect('/products');
 })
 
 
