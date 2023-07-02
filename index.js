@@ -33,8 +33,14 @@ app.use(methodOverride('_method'))
 
 //add a basic route
 app.get('/products', async (req,res) => {
-    const products = await Product.find({})
-    res.render('products/index', {products})
+    const {category} = req.query;
+    if(category){
+      const products = await Product.find({category: category})
+      res.render('products/index', {products, category})
+    } else {
+      const products = await Product.find({})
+      res.render('products/index', {products, category: 'All'})
+    }    
 })
 
 // serve the form to create a new product
@@ -89,6 +95,3 @@ app.delete('/products/:id', async (req, res) => {
 app.listen(3000, () => {
     console.log("APP IS LISTENING ON PORT 3000")
 })
-
-
-//chagnes buana
