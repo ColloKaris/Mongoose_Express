@@ -4,16 +4,16 @@ const {Schema} = mongoose;
 
 // Create our farm Schema
 const farmSchema = new Schema({
-    name:{
+    name: {
         type: String,
-        required: [true, "Farm must have a name"]
+        required: true
     },
     city: {
         type: String
     },
     email: {
         type: String,
-        required: [true, 'Email required']
+        required:true
     },
     products: [{
         type: Schema.Types.ObjectId,

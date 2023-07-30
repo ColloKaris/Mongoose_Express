@@ -10,7 +10,10 @@ const methodOverride = require("method-override")
 //import the model created in product.js in the models folder
 const Product = require('./models/product');
 
-mongoose.connect("mongodb://127.0.0.1:27017/farmStand")
+// import the farm model
+const Farm = require('./models/farm')
+
+mongoose.connect("mongodb://127.0.0.1:27017/farmStandTake2")
   .then(() => {
     console.log("MONGO CONNECTION OPEN!!!");
   })
@@ -28,9 +31,32 @@ app.set('view engine', 'ejs');
 
 //middleware to parse the reqeuest body from post requests
 app.use(express.urlencoded({extended: true}))
-
 app.use(methodOverride('_method'))
 
+/**
+ * Farm routes
+ */
+app.get('/farms', async (req,res) => {
+  const farms = await Farm.find({});
+  res.render('farms/index', { farms })
+})
+
+app.get('/farms/new', (req,res) => {
+  res.render('farms/new')
+})
+app.post('/farms', async (req, res) => {
+  const farm = new Farm(req.body)
+  await farm.save()
+  res.redirect('/farms')
+  //res.send(req.body)
+})
+
+
+
+
+/**
+ * PRODUCT ROUTES
+ */
 //add a basic route
 app.get('/products', async (req,res) => {
     const {category} = req.query;
