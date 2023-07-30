@@ -10,6 +10,7 @@
     <ul>
         <li>Price: $<%= product.price%></li>
         <li>Category: <a href="/products?category=<%= product.category %>"><%= product.category %></a></li>
+        <li> Farm: <a href="/farms/<%=product.farm._id%>"><%= product.farm.name %></a></li>
     <a href="/products">All Products</a>
     <a href="/products/<%= product._id%>/Edit">Edit Product</a>
     <form action="/products/<%=product._id%>?_method=DELETE" method="POST">
