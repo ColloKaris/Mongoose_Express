@@ -77,6 +77,14 @@ app.post('/farms/:id/products', async (req,res) => {
   await product.save()
   res.redirect(`/farms/${id}`)
 })
+/**
+ * Route to Delete a Farm
+ */
+app.delete('/farms/:id', async(req, res) => {
+  const farm = await Farm.findByIdAndDelete(req.params.id);
+  
+  res.redirect('/farms');
+})
 
 
 
