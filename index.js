@@ -6,6 +6,16 @@ const path = require('path');
 const mongoose = require("mongoose");
 const methodOverride = require("method-override")
 
+// Require sessions
+const session = require('express-session')
+
+// Require flash
+const flash = require('connect-flash');
+
+const sessionOptions = {secret: 'thisisnotagoodsecret', resave:false,saveUninitialized: false};
+app.use(session(sessionOptions));
+app.use(flash())
+
 
 //import the model created in product.js in the models folder
 const Product = require('./models/product');
@@ -13,7 +23,7 @@ const Product = require('./models/product');
 // import the farm model
 const Farm = require('./models/farm')
 
-mongoose.connect("mongodb://127.0.0.1:27017/farmStandTake2")
+mongoose.connect("mongodb://127.0.0.1:27017/flashDemo")
   .then(() => {
     console.log("MONGO CONNECTION OPEN!!!");
   })
@@ -38,7 +48,7 @@ app.use(methodOverride('_method'))
  */
 app.get('/farms', async (req,res) => {
   const farms = await Farm.find({});
-  res.render('farms/index', { farms })
+  res.render('farms/index', { farms, messages: req.flash('success')})
 })
 app.get('/farms/new', (req,res) => {
   res.render('farms/new')
@@ -51,6 +61,10 @@ app.get('/farms/:id', async (req, res) => {
 app.post('/farms', async (req, res) => {
   const farm = new Farm(req.body)
   await farm.save()
+
+  // using flash to flash a message before we redirect
+  req.flash('success', 'Successfully made a new farm!');
+
   res.redirect('/farms')
   //res.send(req.body)
 })
